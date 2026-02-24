@@ -1,0 +1,17 @@
+
+const express=require('express');
+
+const app=express();
+
+app.use(express.json());
+
+module.exports=app;
+
+app.get("/",(req,res)=>{
+    res.status(200).json({
+        message:"successfully runnning"
+    })
+});
+
+
+
