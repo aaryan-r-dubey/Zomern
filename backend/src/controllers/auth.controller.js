@@ -1,5 +1,5 @@
 const userModel=require("../models/user.model");
-const bcrypt=require("bcryptsjs");
+const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 
 
@@ -39,5 +39,53 @@ async function registerUser(req,res){
             email:user.email
         }
     })
+}
+
+
+async function loginUser(req,res){
+
+    const {email,password}=req.body;
+
+    const user = await userModel.findOne({
+        email
+    })
+
+    if(!user){
+        res.status(404).json({
+            message:"email or password is incorrect"
+        })
+    }
+
+
+    const isPaasswordValid=await bcrypt.compare(password,user.password);
+
+    if(!isPaasswordValid){
+        res.status(404).json({
+            message:"email or password is incorrect"
+        })
+    }
+
+    const token =jwt.sign({
+        id:user._id,
+    },process.env.JWT_SECRET);
+
+    res.cookie("token1",token);
+
+    res.status(200).json({
+        message:"user logged in successfully",
+        user:{
+            id:user._id,
+            fullName:user.fullName,
+            email:user.email
+        }
+    })
+
+
+}
+
+
+module.exports={
+    registerUser,
+    loginUser,
 }
 
