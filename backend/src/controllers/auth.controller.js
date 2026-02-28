@@ -133,21 +133,21 @@ async function loginFoodPartner(req,res){
 
     const {email,password}=req.body;
 
-    const isAlreadyExists=foodPartnerModel.findOne({
+    const isAlreadyExists=await foodPartnerModel.findOne({
         email
     })
 
     if(!isAlreadyExists){
-        res.status(400).json({
+        return res.status(400).json({
             message:"wrong login credentials"
         })
     }
 
  
-    const isPasswordValid=await bcrypt.compare(password,user.password);
+    const isPasswordValid=await bcrypt.compare(password,isAlreadyExists.password);
 
     if(!isPasswordValid){
-        res.status(404).json({
+        return res.status(404).json({
             message:"email or password is incorrect"
         })
     }
@@ -164,7 +164,6 @@ async function loginFoodPartner(req,res){
         partner:{
             id:isAlreadyExists._id,
             email:isAlreadyExists.email,
-            password:isAlreadyExists.password,
         }
         
     })
