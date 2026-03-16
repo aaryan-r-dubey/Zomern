@@ -8,12 +8,12 @@ const {v4:uuid}=require('uuid');
 
 async function createFood(req,res){
 
-   console.log(req.foodPartner);
+   // console.log(req.foodPartner);
 
-   console.log(req.body);
-   console.log(req.file);
-   console.log("BODY:", req.body);
-    console.log("DESCRIPTION:", req.body.description);
+   // console.log(req.body);
+   // console.log(req.file);
+   // console.log("BODY:", req.body);
+   //  console.log("DESCRIPTION:", req.body.description);
 
    const fileUploadResult=await storageService.uploadFile(req.file.buffer,uuid());
 
@@ -41,6 +41,16 @@ async function createFood(req,res){
 
 }
 
+
+async function getFoodItems(req,res){
+      const foodItems=await foodModel.find({})
+      res.status(200).json({
+         message:"food items fetched successfully",
+         foodItems,
+      })
+}
+
 module.exports={
     createFood,
+   getFoodItems,  
 }

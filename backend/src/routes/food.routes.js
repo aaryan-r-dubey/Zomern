@@ -12,6 +12,8 @@ const upload=multer({
 //api of food should be protected and only food partner can create food item
 router.post('/',authMiddleware.authFooodPartnerMiddleware,upload.single("video"),foodController.createFood);
 
+router.get('/',authMiddleware.authUserMiddleware,foodController.getFoodItems);
+
 module.exports=router;
 
 
