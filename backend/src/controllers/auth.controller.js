@@ -13,8 +13,8 @@ async function registerUser(req,res){
     })
 
     if(isUserAlreadyExists){
-        res.status(400).json({
-            message:"user already exists", 
+        return res.status(400).json({
+            message:"user already exists",
         })
     }
 
@@ -52,7 +52,7 @@ async function loginUser(req,res){
     })
 
     if(!user){
-        res.status(404).json({
+        return res.status(404).json({
             message:"email or password is incorrect"
         })
     }
@@ -61,7 +61,7 @@ async function loginUser(req,res){
     const isPasswordValid=await bcrypt.compare(password,user.password);
 
     if(!isPasswordValid){
-        res.status(404).json({
+        return res.status(404).json({
             message:"email or password is incorrect"
         })
     }
@@ -70,7 +70,7 @@ async function loginUser(req,res){
         id:user._id,
     },process.env.JWT_SECRET);
 
-    res.cookie("token1",token);
+    res.cookie("token",token);
 
     res.status(200).json({
         message:"user logged in successfully",
@@ -85,7 +85,7 @@ async function loginUser(req,res){
 }
 
 function logoutUser(req,res){
-    res.clearCookie("token1");
+    res.clearCookie("token");
     res.status(200).json({
         message:"user logged out successfully"
     })
@@ -100,7 +100,7 @@ async function registerFoodPartner(req,res){
     })
 
     if(isFoodPartnerAlreadyExists){
-        res.status(400).json({
+        return res.status(400).json({
             message:"food partner already exists"
         })
     }
