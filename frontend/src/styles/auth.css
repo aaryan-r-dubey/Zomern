@@ -104,6 +104,12 @@ body, html, #root {
   transform: translateY(-1px);
 }
 
+.auth-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #e5484d;
+}
+
 .auth-note {
   margin-top: 8px;
   font-size: 0.82rem;
